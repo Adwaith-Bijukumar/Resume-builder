@@ -6,11 +6,14 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import { IoClose } from "react-icons/io5";
+
 
 
 const steps = ['Basic Informations', 'Contact Details', 'Education Details','Work Experience', 'Skills & Certifications', 'Review & Submit '];
 
 function UserInputs() {
+  const skillSuggestionArray = ['NODE JS','MONGODB','EXPRESS JS','REACT','ANGULAR','LEADERSHIP','COACHING','POWER BI','WS EXCEL']
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -120,6 +123,26 @@ function UserInputs() {
                      Skills
                 </h3>
 
+                <div className="d-flex justify-content-between align-item-center">
+                  <input placeholder='Add Skills' type="text" className='form-control' />
+                <Button variant='text'>ADD</Button>
+                </div>
+                <h5 className='mt-3'>Suggestions</h5>
+                <div className="d-flex flex-wrap justify-content-between my-3">
+                  {
+                    skillSuggestionArray.map((item,index)=>(
+                    <Button key={index} variant='outlined' className='m-2'>{item}</Button>
+ 
+                    ))
+                  }
+                </div>
+                <h5>Added Skills :</h5>
+                <div className="d-flex flex-wrap justify-content-between my-3">
+                  <Button variant='contained' className='m-1'>NODE JS <IoClose className='ms-2' /></Button>
+                </div>
+
+
+
             </div>
         )
          case 5 : return(
@@ -127,7 +150,13 @@ function UserInputs() {
                 <h3>
                      Summary
                 </h3>
+                <div className="p-3 row">
+                <TextField id="standard-basic-summary" label="Write a short summary of yourself" variant="standard"  multiline rows={4} defaultValue={'Enthusiastic and detail-oriented MERN Stack Developer with hands-on experience in building dynamic, responsive, and user-friendly web applications. Skilled in MongoDB, Express.js, React.js, and Node.js, with a strong understanding of RESTful APIs, front-end design, and database management. Passionate about writing clean, efficient code and continuously learning new technologies to improve development processes.'}/>
+
+        
+                </div>
             </div>
+
         )
         default : return null
     }
