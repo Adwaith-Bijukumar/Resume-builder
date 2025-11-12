@@ -7,36 +7,39 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { FaXmark } from "react-icons/fa6";
-
+import { addResumeAPI } from '../services/allAPI';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['basic Information', 'Contact Details', 'Educational Details', 'Work Experience', 'Skills and Certifications', 'Review & Submit'];
-function Userinputs() {
+function Userinputs({resumeDetails,setResumeDetails}) {
   const skillSuggestionArray = ["NODE JS", "REACT", "PYTHON", "EXPRESS JS", "MONGO DB", "JAVASCRIPT", "C++", "COMMUNICATION", "EXCEL", "C"]
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   // create state for stroing resume deatils
-  const[resumeDetails,setResumeDetails]= React.useState({
-   username:"", 
-   jobtiles:"",
-   location:"",
-   email:"",
-   mobile:"",
-   github:"",
-   linkedin:"",
-   portfolio:"",
-   course:"", 
-   college:"",
-   university:"",
-   passoutyear:"",
-   Jobtype:"",
-   company:"",
-   clocation:"",
-   duration:"",
-   userSkills:[],
-   summary:""
-  })
+  // const[resumeDetails,setResumeDetails]= React.useState({
+  //  username:"", 
+  //  jobtiles:"",
+  //  location:"",
+  //  email:"",
+  //  mobile:"",
+  //  github:"",
+  //  linkedin:"",
+  //  portfolio:"",
+  //  course:"", 
+  //  college:"",
+  //  university:"",
+  //  passoutyear:"",
+  //  Jobtype:"",
+  //  company:"",
+  //  clocation:"",
+  //  duration:"",
+  //  userSkills:[],
+  //  summary:""
+  // })
   // reference to skill input tag
   const skillRef = React.useRef()
+  //  to navigate 
+   const navigate = useNavigate()
 
   console.log(resumeDetails);
   
@@ -183,10 +186,29 @@ function Userinputs() {
       default: return null 
     }
   }
+  const handleAddResume = async()=>{
+    const {username,jobtiles,location} = resumeDetails
+    if(!username && !jobtiles, !location){
+      alert("please fill the form compleately...")
+    }else{
+      console.log("Api Call");
+      try{
+        const result = await addResumeAPI(resumeDetails)
+        if(result.status==201){
+          alert("resume added succesfully")
+         const {id} = result.data
+         navigate(`/resume/${id}/view`)
+        }
+      }catch(error){
+        console.log(error);
+        
+      }
+    }
+  }
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={activeStep}> 
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
@@ -237,9 +259,11 @@ function Userinputs() {
                 Skip
               </Button>
             )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            {activeStep === steps.length - 1 ?             
+             <Button onClick={handleAddResume}>Finish </Button>
+             :
+             <Button onClick={handleNext}>Next </Button>
+             }
           </Box>
         </React.Fragment>
       )}

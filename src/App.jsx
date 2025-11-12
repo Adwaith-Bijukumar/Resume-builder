@@ -7,6 +7,7 @@ import History from './pages/History'
 import Pnf from './pages/Pnf'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ViewResume from './pages/ViewResume'
 
 function App() {
    return (
@@ -15,9 +16,11 @@ function App() {
    <Routes>
     <Route path ='/' element={<LandingPage/>} />    <Route path ='/' element={<LandingPage/>} />
     <Route path ='/resume' element={<ResumeGenerator/>} />
-    <Route path ='/form' element={<UserForm/>} />
+     <Route path ='/form' element={<UserForm/>} />
     <Route path ='/history' element={<History/>} />
+    <Route path ='/resume/:id/view' element={<ViewResume/>} />
     <Route path ='/*' element={<Pnf/>} />
+
 
    </Routes>
     <Footer/>   
